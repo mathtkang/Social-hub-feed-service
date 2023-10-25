@@ -20,8 +20,9 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends curl \
     && curl -sSL https://install.python-poetry.org | python3 - \
     && apt-get install -y gcc \
-    && apt-get install -y default-libmysqlclient-dev
-
+    && apt-get install -y default-libmysqlclient-dev \
+    && pip install gunicorn
+    
 # Copy the poetry files for dependency installation
 COPY pyproject.toml poetry.lock /app/
 
