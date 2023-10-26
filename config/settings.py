@@ -76,11 +76,16 @@ if MYSQL_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': env("DB_NAME"),  # Docker Compose 파일에서 정의한 MYSQL_DATABASE 이름
-            'USER': env("DB_USER"),  # Docker Compose 파일에서 정의한 MYSQL_USER 이름
-            'PASSWORD': env("DB_PASSWORD"),  # Docker Compose 파일에서 정의한 MYSQL_PASSWORD
-            'HOST': env("DB_HOST"),  # Docker Compose 서비스 이름
-            'PORT': env("DB_PORT"),  # Docker Compose 파일에서 정의한 MySQL 포트
+            # 'NAME': env("DB_NAME"),
+            # 'USER': env("DB_USER"),
+            # 'PASSWORD': env("DB_PASSWORD"),
+            # 'HOST': env("DB_HOST"),
+            # 'PORT': env("DB_PORT"),
+            'NAME': 'mydb',
+            'USER': 'root',
+            'PASSWORD': 'rootpassword',
+            'HOST': 'mysql',  # Docker Compose 서비스 이름
+            'PORT': 3306,
         },
         # 'test': {
         #     'ENGINE': 'django.db.backends.mysql',
