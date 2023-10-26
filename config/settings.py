@@ -14,6 +14,8 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+AUTH_USER_MODEL = "accounts.User"
+
 # Application definition
 
 SYSTEM_APPS = [
