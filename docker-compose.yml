@@ -10,7 +10,7 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: rootpassword
     ports:
-      - "3307:3307"
+      - "3306:3306"
     restart: always
   backend:
     container_name: backend

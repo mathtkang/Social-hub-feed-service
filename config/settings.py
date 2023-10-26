@@ -85,7 +85,7 @@ if MYSQL_DB:
             'USER': 'root',
             'PASSWORD': 'mypassword',
             'HOST': 'mysql',  # Docker Compose 서비스 이름
-            'PORT': 3307,
+            'PORT': 3306,
         },
         # 'test': {
         #     'ENGINE': 'django.db.backends.mysql',
