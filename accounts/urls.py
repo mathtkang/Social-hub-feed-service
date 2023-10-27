@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import UserCreateView, UserActivationView
+from .views import UserCreateView, UserActivationView, SendEmailView
 
-app_name = "accounts"
+app_name = "auth"
 # base_url: v1/accounts/
 
 urlpatterns = [
-    path('auth/registration/', UserCreateView.as_view(), name='user-create'),
-    path('auth/code/', UserActivationView.as_view(), name='user-activate'),
+    path('registration/', UserCreateView.as_view(), name='user-create'),
+    path('code/', UserActivationView.as_view(), name='user-activate'),
+    path('<str:username>/', SendEmailView.as_view(), name='send-email'),
 ]

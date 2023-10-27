@@ -2,8 +2,11 @@ import random
 import string
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView
-from django.core.mail import send_mail
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
+# from django.core.mail import send_mail
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
+from django.core.mail import EmailMessage
 from rest_framework import status
 from .models import User
 from .serializers import UserSerializer, UserCreateSerializer
@@ -30,7 +33,6 @@ class UserCreateView(CreateAPIView):
         user.auth_code = User.objects.create_auth_code()
         # message = f'가입 승인 코드: {user.auth_code}'
         user.save()
-        # send_mail(subject, message, from_email)    #* 이메일 발송은 생략
 
         
         # Response 확인용
@@ -41,6 +43,7 @@ class UserCreateView(CreateAPIView):
         }
         
         print("response_data: ", response_data)
+        # send_mail(subject, message, from_email)    #* 이메일 발송은 생략
         return Response(response_data, status = status.HTTP_201_CREATED)
 
 #? /auth/code/
@@ -61,3 +64,39 @@ class UserActivationView(APIView): # 가입승인코드 확인
                 return Response({'message': '올바르지 않은 가입승인 코드입니다.'}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({'message': '사용자를 찾을 수 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class SendEmailView(RetrieveAPIView):
+    permission_classes = [AllowAny]
+    serializer = UserSerializer
+    lookup_field = 'username'
+
+    def get(self, request, username):
+        user = self.get_queryset()
+        # smtp사용해서 메일보내는 코드
+        try:
+            subject = "메일제목"
+            email = user.email
+            auth_code = user.auth_code
+            to = [email]
+            message = auth_code # 메일 내용  #최초 회원가입시도시 생성된 인증코드
+            
+            #* EmailMessage(subject=subject, body=message, to=to).send() # 메일 보내기
+            # Response 확인용
+            response_data = {
+                'subject': subject,
+                'message': message,
+                'to': to,
+            }
+            return Response({'메일 전송 완료':response_data}, status=status.HTTP_200_OK)
+        except Exception as e:    
+            return Response({'message': '사용자를 찾을 수 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get_queryset(self):
+        username = self.kwargs['username']
+        try:
+            user = User.objects.get(username=username)
+        except Exception as e:
+            return 0
+        
+        return user
