@@ -151,28 +151,28 @@ MYSQL_DB = env('MYSQL_DB')
 if MYSQL_DB:
     DATABASES = {
         #Docker 가상환경 사용시 사용
-        # 'default': {
-        #     'ENGINE': 'django.db.backends.mysql',
-        #     # 'NAME': env("DB_NAME"),
-        #     # 'USER': env("DB_USER"),
-        #     # 'PASSWORD': env("DB_PASSWORD"),
-        #     # 'HOST': env("DB_HOST"),
-        #     # 'PORT': env("DB_PORT"),
-        #     'NAME': 'mydb',
-        #     'USER': 'root',
-        #     'PASSWORD': 'rootpassword',
-        #     'HOST': 'mysql',  # Docker Compose 서비스 이름
-        #     'PORT': 3306,
-        # },
-        #개인 mysql과 연결
         'default': {
-        'ENGINE': 'django.db.backends.mysql', # 사용할 데이터베이스 엔진
-        'NAME': 'wanted', # 데이터베이스 이름 
-        'USER': 'root', # 접속할 Database 계정 아이디 ex) root
-        'PASSWORD': 'root',  # 접속할 Database 계정 비밀번호 ex) 1234
-        'HOST': 'localhost',   # host는 로컬 환경에서 동작한다면 ex) localhost
-        'PORT': '3306', # 설치시 설정한 port 번호를 입력한다. ex) 3306
-        }
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': env("DB_NAME"),
+            'USER': env("DB_USER"),
+            'PASSWORD': env("DB_PASSWORD"),
+            'HOST': env("DB_HOST"),
+            'PORT': env("DB_PORT"),
+            # 'NAME': 'mydb',
+            # 'USER': 'root',
+            # 'PASSWORD': 'rootpassword',
+            # 'HOST': 'mysql',  # Docker Compose 서비스 이름
+            # 'PORT': 3306,
+        },
+        #개인 mysql과 연결
+        # 'default': {
+        # 'ENGINE': 'django.db.backends.mysql', # 사용할 데이터베이스 엔진
+        # 'NAME': 'wanted', # 데이터베이스 이름 
+        # 'USER': 'root', # 접속할 Database 계정 아이디 ex) root
+        # 'PASSWORD': 'root',  # 접속할 Database 계정 비밀번호 ex) 1234
+        # 'HOST': 'localhost',   # host는 로컬 환경에서 동작한다면 ex) localhost
+        # 'PORT': '3306', # 설치시 설정한 port 번호를 입력한다. ex) 3306
+        # }
         # 'test': {
         #     'ENGINE': 'django.db.backends.mysql',
         #     'NAME': env("TEST_DB_NAME"),
@@ -192,18 +192,29 @@ else:
 
 
 # Password validation
+# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
-    {
+     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 10,  # 원하는 최소 길이로 변경
+        },
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'validators.CharacterClassesValidator',
+    },
+    {
+        'NAME': 'validators.NoConsecutiveCharactersValidator',
     },
 ]
 
