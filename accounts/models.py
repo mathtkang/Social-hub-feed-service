@@ -1,25 +1,43 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
+import string
+import random
 
-from .managers import CustomUserManager
+from django.db import models
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+
+
+STRING_SEQUENCE = string.ascii_uppercase + string.digits
+
+
+class UserManager(BaseUserManager):
+    def create_user(self, username, password=None, **extra_fields):
+        if not username:
+            raise ValueError("username은 필수 영역입니다.")
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.auth_code = UserManager.create_auth_code()
+        user.save(using=self._db)
+        return user
+            
+    def create_superuser(self, username, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        return self.create_user(username, password, **extra_fields)
+    
+    @classmethod
+    def create_auth_code(cls):
+        auth_code = ""
+        for _ in range(6):
+            auth_code += random.choice(STRING_SEQUENCE)
+        
+        return auth_code
+
 
 class User(AbstractUser):
-    objects = CustomUserManager()
+    objects = UserManager()
+    auth_code = models.CharField(null=True, blank=True)
     
-    email = models.EmailField(verbose_name='email address')
-    username = models.CharField(max_length=30, unique=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    auth_code = models.CharField(max_length=6, null=True, blank=True)
-    
-
-    ##user model에서 각 row를 식별해줄 key를 설정
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
-    
-    #파이썬에서 어떤값(또는 객체)을 문자열로 변환하는데 사용하는 str()
-    #내장 함수가 아닌 파이썬 내장 클래스
-    def __str__(self):
-        return self.email
     
     def get_hashtag(self):
         return f"#{self.username}"

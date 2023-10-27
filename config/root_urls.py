@@ -24,6 +24,6 @@ urlpatterns = [
 
     # [end-point]
     path('admin/', admin.site.urls),
-    path('v1/auth/', include('accounts.urls')),
+    path('v1/accounts/', include('accounts.urls')),
     path('v1/posts/', include('posts.urls')),
 ]

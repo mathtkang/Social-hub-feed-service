@@ -1,12 +1,9 @@
-from django.urls import include, path
-from . import views
-from .views import CustomLoginView
+from django.urls import path
+from accounts import views
 
-app_name = "auth"
+app_name = "accounts"
 # base_url: v1/accounts/
 
 urlpatterns = [
-    path('login/', CustomLoginView.as_view(), name='custom-login'),
-    path('', include('dj_rest_auth.urls'), name='dj_rest_auth'),
-    path('registration/', include('dj_rest_auth.registration.urls'), name='registration'),
+    # 
 ]
