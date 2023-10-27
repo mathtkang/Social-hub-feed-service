@@ -76,16 +76,16 @@ if MYSQL_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            # 'NAME': env("DB_NAME"),
-            # 'USER': env("DB_USER"),
-            # 'PASSWORD': env("DB_PASSWORD"),
-            # 'HOST': env("DB_HOST"),
-            # 'PORT': env("DB_PORT"),
-            'NAME': 'mydb',
-            'USER': 'root',
-            'PASSWORD': 'rootpassword',
-            'HOST': 'mysql',  # Docker Compose 서비스 이름
-            'PORT': 3306,
+            'NAME': env("DB_NAME"),
+            'USER': env("DB_USER"),
+            'PASSWORD': env("DB_PASSWORD"),
+            'HOST': env("DB_HOST"),
+            'PORT': env("DB_PORT"),
+            # 'NAME': 'mydb',
+            # 'USER': 'root',
+            # 'PASSWORD': 'rootpassword',
+            # 'HOST': 'mysql',  # Docker Compose 서비스 이름
+            # 'PORT': 3306,
         },
         # 'test': {
         #     'ENGINE': 'django.db.backends.mysql',
