@@ -14,6 +14,8 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+AUTH_USER_MODEL = "accounts.User"
+
 # Application definition
 
 SYSTEM_APPS = [
@@ -71,21 +73,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
+# MYSQL_DB = False
 MYSQL_DB = env('MYSQL_DB')
 if MYSQL_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            # 'NAME': env("DB_NAME"),
-            # 'USER': env("DB_USER"),
-            # 'PASSWORD': env("DB_PASSWORD"),
-            # 'HOST': env("DB_HOST"),
-            # 'PORT': env("DB_PORT"),
-            'NAME': 'mydb',
-            'USER': 'root',
-            'PASSWORD': 'rootpassword',
-            'HOST': 'mysql',  # Docker Compose 서비스 이름
-            'PORT': 3306,
+            'NAME': env("DB_NAME"),
+            'USER': env("DB_USER"),
+            'PASSWORD': env("DB_PASSWORD"),
+            'HOST': env("DB_HOST"),
+            'PORT': env("DB_PORT"),
+            # 'USER': 'root',
+            # 'NAME': 'mydb',
+            # 'PASSWORD': 'rootpassword',
+            # 'HOST': 'mysql',  # Docker Compose 서비스 이름
+            #! 'PASSWORD': '1234',
+            #! 'HOST': 'localhost',  # Docker Compose 서비스 이름
+            # 'PORT': 3306,
         },
         # 'test': {
         #     'ENGINE': 'django.db.backends.mysql',
