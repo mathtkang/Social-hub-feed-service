@@ -1,7 +1,7 @@
 import random
 import string
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.views import APIView, LoginView
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import permission_classes
@@ -9,42 +9,41 @@ from rest_framework.permissions import AllowAny
 from django.core.mail import EmailMessage
 from rest_framework import status
 from .models import User
-from .serializers import UserSerializer, UserCreateSerializer
-
+from .serializers import UserApprovalSerializer, CustomLoginSerializer
 
 
 # Create your views here.
 #! /auth/registration/  -> 테스트용
-class UserCreateView(CreateAPIView):
-    serializer_class = UserCreateSerializer
+# class UserCreateView(CreateAPIView):
+#     serializer_class = UserCreateSerializer
     
-    def perform_create(self, serializer):
-        data = serializer.validated_data
-        username = data['username']
-        email = data['email']
-        password = data['password']
+#     def perform_create(self, serializer):
+#         data = serializer.validated_data
+#         username = data['username']
+#         email = data['email']
+#         password = data['password']
         
-        user = User.objects.create_user(username=username, email=email, password=password)
+#         user = User.objects.create_user(username=username, email=email, password=password)
         
-        user.auth_code = User.objects.create_auth_code()
-        # message = f'가입 승인 코드: {user.auth_code}'
-        user.save()
+#         user.auth_code = User.objects.create_auth_code()
+#         # message = f'가입 승인 코드: {user.auth_code}'
+#         user.save()
 
         
-        # Response 확인용
-        response_data = {
-            'username': username,
-            'auth_code': user.auth_code,
-            'from_email': email,
-        }
+#         # Response 확인용
+#         response_data = {
+#             'username': username,
+#             'auth_code': user.auth_code,
+#             'from_email': email,
+#         }
         
-        print("response_data: ", response_data)
-        # send_mail(subject, message, from_email)    #* 이메일 발송은 생략 -> 회원생성과 동시에 이메일 발송할 경우
-        return Response(response_data, status = status.HTTP_201_CREATED)
+#         print("response_data: ", response_data)
+#         # send_mail(subject, message, from_email)    #* 이메일 발송은 생략 -> 회원생성과 동시에 이메일 발송할 경우
+#         return Response(response_data, status = status.HTTP_201_CREATED)
 
 #? /auth/code/ : 가입승인코드 일치 확인
 class UserActivationView(APIView): # 가입승인코드 확인
-    serializer_class = UserSerializer
+    serializer_class = UserApprovalSerializer
     def post(self, request):
         user =  request.data.get('username')
         auth_code = request.data.get('auth_code')  
@@ -65,7 +64,7 @@ class UserActivationView(APIView): # 가입승인코드 확인
 #? /auth/<username>/ : username로 인증코드 메일전송 -> 이메일 재발송이 필요한경우
 class SendEmailView(RetrieveAPIView):
     permission_classes = [AllowAny]
-    serializer = UserSerializer
+    serializer = UserApprovalSerializer
     lookup_field = 'username'
 
     def get(self, request, username):
@@ -101,3 +100,12 @@ class SendEmailView(RetrieveAPIView):
             return 0
         
         return user
+
+
+class CustomLoginView(LoginView):
+    serializer_class = CustomLoginSerializer  # 커스텀 시리얼라이저를 사용
+
+    def post(self, request, *args, **kwargs):
+        # 로그인 로직을 그대로 유지
+        return super(CustomLoginView, self).post(request, *args, **kwargs)
+
