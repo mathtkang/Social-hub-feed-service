@@ -148,6 +148,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
+# MYSQL_DB = False
 MYSQL_DB = env('MYSQL_DB')
 if MYSQL_DB:
     DATABASES = {
@@ -158,11 +159,6 @@ if MYSQL_DB:
             'PASSWORD': env("DB_PASSWORD"),
             'HOST': env("DB_HOST"),
             'PORT': env("DB_PORT"),
-            # 'NAME': 'mydb',
-            # 'USER': 'root',
-            # 'PASSWORD': 'rootpassword',
-            # 'HOST': 'mysql',  # Docker Compose 서비스 이름
-            # 'PORT': 3306,
         },
         #개인 mysql과 연결
         # 'test': {
@@ -237,3 +233,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Customizing User model
 AUTH_USER_MODEL = "accounts.User"
+
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env("EMAIL_HOST_USER") # 발신할 이메일
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD") # 발신할 메일의 비밀번호
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
