@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from .models import User
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from dj_rest_auth.serializers import LoginSerializer
@@ -8,7 +8,7 @@ from datetime import datetime
 
 class CustomRegisterSerializer(RegisterSerializer):
     class Meta:
-        model = get_user_model()
+        model = User
         fields = [
             "username",
             "email",
