@@ -1,10 +1,12 @@
-from django.contrib.auth.base_user import BaseUserManager
-from django.utils.translation import gettext_lazy as _
-from datetime import date
-import string
 import random
+import string
+from datetime import date
+from django.contrib.auth.base_user import BaseUserManager
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 STRING_SEQUENCE = string.ascii_uppercase + string.digits # 새로운 인증 코드 생성
+
 
 class CustomUserManager(BaseUserManager):
     """
@@ -24,6 +26,7 @@ class CustomUserManager(BaseUserManager):
         user = self.model(
             username=username,
             email=self.normalize_email(email),
+            date_joined = timezone.now(),
             **extra_fields)
         
         user.auth_code = self.create_auth_code()
