@@ -1,14 +1,21 @@
-from django.contrib.auth import get_user_model
-from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
+from .models import User
+from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import LoginSerializer
 ##연습용 Serializer
 from rest_framework.serializers import ModelSerializer
 from datetime import datetime
 
+
+class UserApprovalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'auth_code']
+        read_only_fields = ['email']
+
 class CustomRegisterSerializer(RegisterSerializer):
     class Meta:
-        model = get_user_model()
+        model = User
         fields = [
             "username",
             "email",

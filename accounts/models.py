@@ -1,7 +1,12 @@
+import string
+import random
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
 from .managers import CustomUserManager
+
+STRING_SEQUENCE = string.ascii_uppercase + string.digits
+
+
 
 class User(AbstractUser):
     objects = CustomUserManager()
@@ -25,6 +30,7 @@ class User(AbstractUser):
         return f"#{self.username}"
 
     def is_authcode_certified(self):
+
         if self.auth_code:
             return False
         return True
