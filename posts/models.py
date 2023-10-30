@@ -22,11 +22,17 @@ class Posts(models.Model):
     share_count = models.PositiveIntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    account = models.ForeignKey(User, on_delete=models.CASCADE)  # 석영 추가 수정
+    author = models.CharField(max_length=50)
+
+    def get_limited_content(self):
+        result = self.content
+        if len(self.content) > 20:
+            result = result[:20] + '...'
+        return result
 
 
 class HashTags(models.Model):
     name = models.CharField(max_length=50)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    post = models.ForeignKey(Posts, on_delete=models.CASCADE)  # 석영 추가 수정
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
