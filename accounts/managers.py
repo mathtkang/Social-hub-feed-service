@@ -14,12 +14,12 @@ class CustomUserManager(BaseUserManager):
     for authentication instead of usernames.
     """
     #일반 유저 생성
-    def create_user(self,username, email, password, **extra_fields):
+    def create_user(self, username, email, password, **extra_fields):
         """
         Create and save a User with the given email and password.
         """
         if not email:
-            raise ValueError(_('The Email must be set'))
+            raise ValueError(_('email은 필수 영역입니다.'))
         if not username:
             raise ValueError("username은 필수 영역입니다.")
         #email 형태를 동일하게 만들기 위한 함수

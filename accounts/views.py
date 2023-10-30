@@ -1,11 +1,9 @@
-import random
-import string
 from rest_framework.response import Response
-from rest_framework.views import APIView, LoginView
+from rest_framework.views import APIView
+from dj_rest_auth.views import LoginView
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from django.core.mail import EmailMessage
 from rest_framework import status
 from .models import User
@@ -42,9 +40,11 @@ from .serializers import UserApprovalSerializer, CustomLoginSerializer
 #         return Response(response_data, status = status.HTTP_201_CREATED)
 
 #? /auth/code/ : 가입승인코드 일치 확인
-class UserActivationView(APIView): # 가입승인코드 확인
+class UserApprovalView(APIView): # 가입승인코드 확인
+    permission_classes = [AllowAny]  #로그인 안된 유저도 사용할 수 있게 권한부여
     serializer_class = UserApprovalSerializer
     def post(self, request):
+        
         user =  request.data.get('username')
         auth_code = request.data.get('auth_code')  
         # email = request.data.get('email')   # 이메일 입력도 필요할 경우 사용
@@ -63,7 +63,7 @@ class UserActivationView(APIView): # 가입승인코드 확인
         
 #? /auth/<username>/ : username로 인증코드 메일전송 -> 이메일 재발송이 필요한경우
 class SendEmailView(RetrieveAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer = UserApprovalSerializer
     lookup_field = 'username'
 
@@ -104,7 +104,7 @@ class SendEmailView(RetrieveAPIView):
 
 class CustomLoginView(LoginView):
     serializer_class = CustomLoginSerializer  # 커스텀 시리얼라이저를 사용
-
+    
     def post(self, request, *args, **kwargs):
         # 로그인 로직을 그대로 유지
         return super(CustomLoginView, self).post(request, *args, **kwargs)
