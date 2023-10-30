@@ -53,7 +53,6 @@ CUSTOM_APPS = [
 
 INSTALLED_APPS = SYSTEM_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
-AUTH_USER_MODEL = 'accounts.User'
 
 #dj-rest-auth 관련 환경 설정
 REST_AUTH = {

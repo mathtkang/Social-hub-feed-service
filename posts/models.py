@@ -24,6 +24,11 @@ class Posts(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.CharField(max_length=50)
 
+    def get_limited_content(self):
+        result = self.content
+        if len(self.content) > 20:
+            result = result[:20] + '...'
+        return result
 
 
 class HashTags(models.Model):
