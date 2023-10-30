@@ -91,8 +91,8 @@ class SearchPostsList(ListAPIView):
 class SharePosts(APIView):
     serializer_class = ShareSerializer
     def post(self, request, pk):
-        post = Posts.objects.get(pk=pk)
         try:
+            post = Posts.objects.get(pk=pk)
             url = ''
             # type을 기반으로 URL을 생성한다.
             if post.type == SNSType.FACEBOOK.value:
