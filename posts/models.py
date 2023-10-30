@@ -22,7 +22,7 @@ class Posts(models.Model):
     share_count = models.PositiveIntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    account = models.ForeignKey(User,on_delete=models.CASCADE)
+    author = models.CharField(max_length=50)
 
 
 class HashTags(models.Model):
