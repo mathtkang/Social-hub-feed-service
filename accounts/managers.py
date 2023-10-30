@@ -35,7 +35,7 @@ class CustomUserManager(BaseUserManager):
         return user
     
     @classmethod
-    def create_auth_code(self):
+    def create_auth_code(cls):
         auth_code = ""
         for _ in range(6):
             auth_code += random.choice(STRING_SEQUENCE)

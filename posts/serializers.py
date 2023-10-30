@@ -1,3 +1,4 @@
+
 from rest_framework import serializers
 
 from posts.models import Posts, HashTags
@@ -13,4 +14,4 @@ class HashTagSerializer(serializers.ModelSerializer):
     class Meta():
         model = HashTags
         fields = '__all__'
-        
+

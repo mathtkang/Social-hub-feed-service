@@ -1,6 +1,8 @@
+
 from rest_framework import serializers
 from .models import CustomUserManager
 from django.contrib.auth import get_user_model
+
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import LoginSerializer
 ##연습용 Serializer
@@ -10,7 +12,7 @@ from datetime import datetime
 
 class UserApprovalSerializer(ModelSerializer):
     class Meta:
-        model = get_user_model()
+model = get_user_model()
         fields = ['username', 'email', 'auth_code']
         read_only_fields = ['email']
 
@@ -22,8 +24,6 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.save()
 
         return user
-
-  
 
 class CustomLoginSerializer(LoginSerializer):
     # email 필드를 제거
