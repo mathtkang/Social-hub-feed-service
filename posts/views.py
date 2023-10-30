@@ -62,10 +62,9 @@ class SearchPostsList(ListAPIView):
         # hashtag, type, order_by, search_by, search 파라미터 처리
         query_params = self.request.query_params
         hashtag = query_params.get('hashtag', self.request.user.username)
+
         if hashtag:
-            queryset = queryset.filter(content__icontains='#'+hashtag)
-        # if hashtag:
-        #     queryset = queryset.filter(hashtags__name__exact=hashtag)
+            queryset = queryset.filter(hashtags__name__exact=hashtag)
 
         post_type = query_params.get('type', None)
         if post_type:
@@ -84,7 +83,5 @@ class SearchPostsList(ListAPIView):
             for by in search_by_list:
                 search_filter[f'{by}__icontains'] = keyword
             queryset = queryset.filter(**search_filter)
-        # else:
-        #     raise ValueError(f'쿼리 파라미터 "search"의 값이 필요합니다.')
 
         return queryset
