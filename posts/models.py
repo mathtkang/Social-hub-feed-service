@@ -23,3 +23,12 @@ class Posts(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.CharField(max_length=50)
+
+
+
+class HashTags(models.Model):
+    name = models.CharField(max_length=50)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+
