@@ -12,7 +12,7 @@ from datetime import datetime
 
 class UserApprovalSerializer(ModelSerializer):
     class Meta:
-model = get_user_model()
+        model = get_user_model()
         fields = ['username', 'email', 'auth_code']
         read_only_fields = ['email']
 
