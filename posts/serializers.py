@@ -15,3 +15,14 @@ class HashTagSerializer(serializers.ModelSerializer):
         model = HashTags
         fields = '__all__'
 
+class ShareSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Posts
+        fields = ['content_id', 'type']
+        
+        
+        
+        
+        
+        
+        

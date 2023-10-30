@@ -1,6 +1,4 @@
-
-from .models import Posts
-from .serializers import PostSerializer
+import requests
 from rest_framework import generics, status, filters
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -13,10 +11,9 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from posts.models import Posts, HashTags
-from posts.serializers import PostSerializer
+from posts.models import Posts, HashTags, SNSType
+from posts.serializers import PostSerializer, ShareSerializer
 
 # Blog의 detail을 보여주는 역할
 class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -88,3 +85,40 @@ class SearchPostsList(ListAPIView):
         #     raise ValueError(f'쿼리 파라미터 "search"의 값이 필요합니다.')
 
         return queryset
+
+
+# 공유 api 호출
+class SharePosts(APIView):
+    serializer_class = ShareSerializer
+    def post(self, request, pk):
+        post = post = Posts.objects.get(pk=pk)
+        try:
+            url = ''
+            # type을 기반으로 URL을 생성한다.
+            if post.type == SNSType.FACEBOOK.value:
+                url = f'https://www.facebook.com/share/{post.content_id}'
+            elif post.type == SNSType.TWITTER.value:
+                url = f'https://www.twitter.com/share/{post.content_id}'
+            elif post.type == SNSType.INSTAGRAM.value:
+                url = f'https://www.instagram.com/share/{post.content_id}'
+            elif post.type == SNSType.THREAD.value:
+                url = f'https://www.threads.net/share/{post.content_id}'
+            else:
+                return Response({'message': 'SNS타입이 올바르지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            IS_TEST = True
+            response = requests.post(url, data={'share_count': 1}) # 실제 동작은 안함
+            if response.status_code == 200 or IS_TEST:
+                post.share_count += 1 
+                post.save()
+                response_data = {
+                                'message': '공유 성공',
+                                'share_count': post.share_count,
+                                'sns_type' : post.type,
+                                'url': url,
+                                }   
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'API 요청 실패'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Posts.DoesNotExist:
+            return Response({'message': '게시물을 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
