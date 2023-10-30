@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 (
                     "post",
                     models.ForeignKey(
-                        on_delete=models.CASCADE, to="posts.posts"
+                        on_delete=models.deletion.CASCADE, to="posts.posts"
                     ),
                 ),
             ],
