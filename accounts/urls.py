@@ -12,5 +12,5 @@ urlpatterns = [
   #가입승인 url
     path('registration/', include('dj_rest_auth.registration.urls'), name='registration'),
     path('code/', UserApprovalView.as_view(), name='user-approval'),
-    path('<str:username>/', SendEmailView.as_view(), name='send-email'),
+    path('code/<str:username>/', SendEmailView.as_view(), name='send-email'),
 ]

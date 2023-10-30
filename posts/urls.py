@@ -7,5 +7,6 @@ app_name = "posts"
 urlpatterns =[
     path("", views.SearchPostsList.as_view()),
     path('<int:pk>/', views.PostsDetail.as_view()),
-    path('<int:pk>/like/', views.LikeView.as_view()),  # post/1/like
+    path('<int:pk>/share/', views.SharePosts.as_view()),
+    path('<int:pk>/like/', views.LikeView.as_view()),
 ]
