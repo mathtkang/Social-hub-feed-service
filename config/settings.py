@@ -159,7 +159,6 @@ if MYSQL_DB:
             'HOST': env("DB_HOST"),
             'PORT': env("DB_PORT"),
         },
-        #개인 mysql과 연결
         # 'test': {
         #     'ENGINE': 'django.db.backends.mysql',
         #     'NAME': env("TEST_DB_NAME"),

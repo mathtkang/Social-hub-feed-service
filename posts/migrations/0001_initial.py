@@ -32,7 +32,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HashTags',
             fields=[
-
                 (
                     "id",
                     models.BigAutoField(
@@ -51,7 +50,6 @@ class Migration(migrations.Migration):
                         on_delete=models.deletion.CASCADE, to="posts.posts"
                     ),
                 ),
-
             ],
         ),
     ]

@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 
 
+from accounts.managers import CustomUserManager
 
 class User(AbstractUser):
     objects = CustomUserManager()
@@ -12,8 +13,7 @@ class User(AbstractUser):
     email = models.EmailField(verbose_name='email address')
     username = models.CharField(max_length=30, unique=True)
     updated_at = models.DateTimeField(auto_now=True)
-    auth_code = models.CharField(max_length=7, null=True, blank=True)
-    
+    auth_code = models.CharField(max_length=7, null=True, blank=True)    
 
     ##user model에서 각 row를 식별해줄 key를 설정
     USERNAME_FIELD = 'username'
@@ -28,7 +28,6 @@ class User(AbstractUser):
         return f"#{self.username}"
 
     def is_authcode_certified(self):
-
         if self.auth_code:
             return False
         return True

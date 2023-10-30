@@ -36,4 +36,3 @@ class HashTags(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
-
