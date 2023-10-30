@@ -4,7 +4,7 @@ from .views import UserApprovalView, SendEmailView, CustomLoginView
 
 
 app_name = "auth"
-# base_url: v1/accounts/
+# base_url: v1/auth/
 
 urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='custom-login'),

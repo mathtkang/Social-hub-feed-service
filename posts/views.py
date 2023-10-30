@@ -16,14 +16,15 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from posts.models import Posts, HashTags
-from posts.serializers import PostSerializer
+from posts.serializers import PostSerializer, LikeSerializer
+import requests
+
 
 # Blog의 detail을 보여주는 역할
 class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.all()
     serializer_class = PostSerializer
     
-    # permission_classes = [IsAuthenticated, ]
     permission_classes = [AllowAny, ]
     
     def get(self, request, *args, **kwargs):
@@ -48,8 +49,7 @@ class PostsPagination(PageNumberPagination):
 
 
 class SearchPostsList(ListAPIView):
-    # permission_classes = [IsAuthenticated, ]
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAny]
     
     serializer_class = PostSerializer
     pagination_class = PostsPagination
@@ -85,3 +85,45 @@ class SearchPostsList(ListAPIView):
             queryset = queryset.filter(**search_filter)
 
         return queryset
+
+
+class LikeView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk):
+        post = Posts.objects.get(id=pk)
+        sns = post.type
+        content_id = post.content_id
+        
+        if sns == 'facebook':
+            api_url = f'https://www.facebook.com/likes/{content_id}'
+        elif sns == 'twitter':
+            api_url = f'https://www.twitter.com/likes/{content_id}'
+        elif sns == 'instagram':
+            api_url = f'https://www.instagram.com/likes/{content_id}'
+        elif sns == 'threads':
+            api_url = f'https://www.threads.com/likes/{content_id}'
+        else:
+            raise
+        
+        post.like_count += 1
+        post.save()
+        
+        response = requests.get(api_url)
+
+        IS_LOCAL = True
+        if response.status_code == 200 or IS_LOCAL:
+            return Response(
+                {
+                    'message': f'{sns} 게시글에 좋아요 개수가 올라갔습니다.',
+                    'like_count': post.like_count,
+                }, 
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {
+                    'message': 'API 요청 실패'
+                }, 
+                status=status.HTTP_400_BAD_REQUEST,
+            )
