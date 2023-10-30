@@ -97,7 +97,7 @@ REST_FRAMEWORK = {
     # "rest_framework.authentication.SessionAuthentication", 지우면 API 엔드포인트에서 로그인이 안되니 주의하자!!
     #'rest_framework.authentication.SessionAuthentication',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        [ 'rest_framework.authentication.SessionAuthentication',
+        [
             'dj_rest_auth.jwt_auth.JWTCookieAuthentication' ]
     ),
     
