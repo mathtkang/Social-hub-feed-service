@@ -61,7 +61,7 @@ class UserApprovalView(APIView): # 가입승인코드 확인
             return Response({'message': '사용자를 찾을 수 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
         
         
-#? /auth/<username>/ : username로 인증코드 메일전송 -> 이메일 재발송이 필요한경우
+#? /auth/code/<username>/ : username로 인증코드 메일전송 -> 이메일 재발송이 필요한경우
 class SendEmailView(RetrieveAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer = UserApprovalSerializer
