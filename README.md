@@ -1,16 +1,17 @@
 # 소셜 미디어 통합 Feed 서비스
 
 ## 목차
-- [개요](#개요)
-- [요구사항](#요구사항)
-- [개발환경세팅](#개발환경세팅)
-- [Installation & Run](#Installation)
-- [ER-Diagram](#ER-Diagram)
-- [API Documentation](#API)
-- [프로젝트 진행 및 이슈 관리](#프로젝트)
-- [구현과정(설계 및 의도)](#구현과정)
-- [TIL 및 회고](#TIL)
-- [Authors](#Authors)
+- [📃 프로젝트 개요](#📃-프로젝트-개요)
+- [🍄 요구사항](#🍄-요구사항)
+- [⚙️ 개발 환경 세팅](#⚙️-개발-환경-세팅)
+- [🛠 기술 스택](#🛠-기술-스택)
+- [🥁 Installation & Run](#🥁-Installation-&-Run)
+- [📋 E-R Diagram](#📋-E-R-Diagram)
+- [📑 API Documentation](#📑-API-Documentation)
+- [🕸 설계 및 구현 의도](#🕸-설계-및-구현-의도)
+- [🏃 TIL 및 회고](#🏃-TIL-및-회고)
+- [📆 일정 관리 및 이슈 관리](#📆-일정-관리-및-이슈-관리)
+- [🙋 Authors](#🙋-Authors)
 
 
 ## 📃 프로젝트 개요
@@ -107,6 +108,7 @@
 #### Database
 - ![MySQL badge](https://img.shields.io/badge/MySQL-4479A1.svg?&logo=MySQL&logoColor=white)
 
+<br>
 
 ## 🥁 Installation & Run
 ### MySQL DB 세팅
@@ -145,6 +147,7 @@
 
 ## 📋 E-R Diagram
 <img width="800" alt="ER-Diagram" src="https://user-images.githubusercontent.com/51039577/279062267-56eb25e7-01ae-405a-8020-85496cd52a32.png">
+
 - post(feed)의 author는 각 소셜서비스의 작성자이기 때문에, 해당 서비스의 user와는 서로 다른 객체이다. 따라서 post와 user 테이블과는 관계가 없다.
 - hashtag의 목적은 search이기 때문에, 처음에는 post안에 하나의 필드로 존재했지만, 정규화/데이터 일관성/유연한 쿼리 검색을 위해 새로운 테이블로 빼내어 구현하게 되었다.
 - 이메일 인증코드 등록을 위해 user테이블에 auth_code 필드를 추가했다.
@@ -590,13 +593,9 @@
 <br> -->
 
 
-## 프로젝트 진행 및 이슈 관리
-- ![GitHub](https://img.shields.io/badge/github-%23121011.svg?&logo=github&logoColor=white) 의 `ISSUE`로 등록해서 관리했습니다.
-- GitHub 이슈 페이지 [링크](https://github.com/I-deul-of-zoo/wanted-feed-service/issues)
-
 <br>
 
-## 설계 및 구현 의도
+## 🕸 설계 및 구현 의도
 
 #### 1. 환경설정
 - 동일한 개발환경 구축을 위해 아래와 같이 환경설정을 진행하였습니다.
@@ -618,20 +617,26 @@
     - 각 API의 Response에 맞는 HTTP status code를 적절하게 사용하였고, 발생할 수 있는 에러 상황에 대한 예외처리를 진행하였습니다.
 
 #### 3. gitmessage 사용
+    - [참고 블로그](https://kkangsg.tistory.com/95)
 
 <br>
 
-## TIL 및 회고
+## 🏃 TIL 및 회고
 - Discord로 모여 매일 9:00, 14:00 에 모여 진행상황과 공부한 것을 공유했습니다.
 - TIL 노션 페이지 [링크](https://sprinkle-piccolo-9fc.notion.site/TIL-677e52f238c0442697a3e03cc6f3edd9?pvs=4)
 
-## 일정 관리
+<br>
+
+## 📆 일정 관리 및 이슈 관리
 - 요구사항 분석 이후 작업 가능한 최소 단위의 task로 업무를 나누었습니다.
 - 각 task에 대한 우선순위를 설정하고, 노션의 Timeline 기능을 사용하여 주어진 기간 동안 필수 기능과 선택 기능을 모두 구현할 수 있도록 일정 관리를 진행하였습니다.
+- ![GitHub](https://img.shields.io/badge/github-%23121011.svg?&logo=github&logoColor=white) 의 `ISSUE`로 등록해서 관리했습니다.
+- GitHub 이슈 페이지 [링크](https://github.com/I-deul-of-zoo/wanted-feed-service/issues)
+
 
 <br>
 
-## Authors
+## 🙋 Authors
 
 |이름|역할|github주소|
 |---|---|---------|
