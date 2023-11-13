@@ -12,12 +12,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [""]
 
-AUTH_USER_MODEL = "accounts.User"
 
 # Application definition
-
 SYSTEM_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -147,7 +145,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-# MYSQL_DB = False
 MYSQL_DB = env('MYSQL_DB')
 if MYSQL_DB:
     DATABASES = {
@@ -159,14 +156,6 @@ if MYSQL_DB:
             'HOST': env("DB_HOST"),
             'PORT': env("DB_PORT"),
         },
-        # 'test': {
-        #     'ENGINE': 'django.db.backends.mysql',
-        #     'NAME': env("TEST_DB_NAME"),
-        #     'USER': env("TEST_DB_USER"),
-        #     'PASSWORD': env("TEST_DB_PASSWORD"),
-        #     'HOST': env("TEST_DB_HOST"),
-        #     'PORT': env("TEST_DB_PORT"),
-        # },
     }
 else:
     DATABASES = {
@@ -225,15 +214,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # Customizing User model
 AUTH_USER_MODEL = "accounts.User"
 
 
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
